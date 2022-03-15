@@ -10,7 +10,7 @@ describe('Register Test', () => {
             .then(() => {
                 cy.get('input[name=firstName]')
                     .click()
-                    .type(user.lastName)
+                    .type(user.firstName)
                     .invoke('val')
                     .should("not.be.empty")
             })
