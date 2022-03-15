@@ -1,6 +1,7 @@
 import {ErrorMessage, Field, Form, Formik} from 'formik';
 import * as Yup from 'yup';
 import {useState} from "react";
+import {City, State} from 'country-state-city';
 
 function Register() {
 
@@ -9,12 +10,17 @@ function Register() {
         lastName: '',
         npiNum: '',
         address: '',
+        state: '',
+        city: '',
+        zip: '',
         telephone: '',
         email: '',
     };
 
     const [values, setValues] = useState();
-    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+    const [stateIso, setStateIso] = useState('')
+    const allStates = State.getStatesOfCountry('US');
+    const phoneRegExp = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d+)\)?)[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i
 
     const validationSchema = Yup.object().shape({
         firstName: Yup.string()
@@ -30,7 +36,16 @@ function Register() {
             .email('Email is invalid')
             .required('Email is required'),
         address: Yup.string()
-            .required('Business Address is required'),
+            .required('Street Address is required'),
+        state: Yup.string()
+            .required('State is required'),
+        city: Yup.string()
+            .required('City is required'),
+        zip: Yup.string()
+            .required("Zip is required")
+            .matches(/^[0-9]+$/, "Invalid Zip")
+            .min(5, 'Invalid Zip')
+            .max(5, 'Invalid Zip'),
         telephone: Yup.string()
             .matches(phoneRegExp, 'Phone number is not valid')
             .required('Telephone is required')
@@ -38,6 +53,14 @@ function Register() {
 
     function onSubmit(fields) {
         setValues(fields);
+    }
+
+    function handleChange(e) {
+        allStates.map((values, idx) => {
+            if (e.target.value === values.name) {
+                setStateIso(values.isoCode);
+            }
+        })
     }
 
     return (
@@ -80,21 +103,52 @@ function Register() {
                                                 <ErrorMessage name="npiNum" component="div"
                                                               className="invalid-feedback"/>
                                             </div>
+                                            <div className="form-group">
+                                                <label>Street Address</label>
+                                                <Field name="address" type="text"
+                                                       className={'form-control' + (errors.address && touched.address ? ' is-invalid' : '')}/>
+                                                <ErrorMessage name="address" component="div"
+                                                              className="invalid-feedback"/>
+                                            </div>
                                             <div className="form-row">
-                                                <div className="form-group col">
-                                                    <label>Business Address</label>
-                                                    <Field name="address" type="address"
-                                                           className={'form-control' + (errors.address && touched.address ? ' is-invalid' : '')}/>
-                                                    <ErrorMessage name="address" component="div"
+                                                <div className="form-group col-md-6">
+                                                    <label>State</label>
+                                                    <Field name="state" as="select" id="state" onBlur={handleChange}
+                                                           className={'form-control' + (errors.state && touched.state ? ' is-invalid' : '')}>
+                                                        <option value={""}>Choose...</option>
+                                                        {allStates.map((values, idx) => (
+                                                            <option key={idx}>{values.name}</option>
+                                                        ))}
+                                                    </Field>
+                                                    <ErrorMessage name="state" component="div"
                                                                   className="invalid-feedback"/>
                                                 </div>
-                                                <div className="form-group col">
-                                                    <label>Telephone Number</label>
-                                                    <Field name="telephone" type="telephone"
-                                                           className={'form-control' + (errors.telephone && touched.telephone ? ' is-invalid' : '')}/>
-                                                    <ErrorMessage name="telephone" component="div"
+                                                <div className="form-group col-md-4">
+                                                    <label>City</label>
+                                                    <Field name="city" id="city" as="select"
+                                                           className={'form-control' + (errors.city && touched.city ? ' is-invalid' : '')}>
+                                                        <option value={""}>Choose...</option>
+                                                        {City.getCitiesOfState('US', stateIso).map((values, idx) => (
+                                                            <option key={idx}>{values.name}</option>
+                                                        ))}
+                                                    </Field>
+                                                    <ErrorMessage name="city" component="div"
                                                                   className="invalid-feedback"/>
                                                 </div>
+                                                <div className="form-group col-md-2">
+                                                    <label>Zip</label>
+                                                    <Field name="zip" type="text" pattern="[0-9]{5}"
+                                                           className={'form-control' + (errors.zip && touched.zip ? ' is-invalid' : '')}/>
+                                                    <ErrorMessage name="zip" component="div"
+                                                                  className="invalid-feedback"/>
+                                                </div>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Telephone Number</label>
+                                                <Field name="telephone" type="telephone"
+                                                       className={'form-control' + (errors.telephone && touched.telephone ? ' is-invalid' : '')}/>
+                                                <ErrorMessage name="telephone" component="div"
+                                                              className="invalid-feedback"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Email</label>
