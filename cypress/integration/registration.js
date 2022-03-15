@@ -39,7 +39,7 @@ describe('Register Test', () => {
                 cy.get('input[name=email]').click().type(user.email)
             })
             .then(() => {
-                cy.get('button[type=submit]').click({force: true})
+                cy.get('form').submit() // Submit a form
             })
     })
 })
