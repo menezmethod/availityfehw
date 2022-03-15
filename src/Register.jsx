@@ -20,7 +20,9 @@ function Register() {
     const [values, setValues] = useState();
     const [stateIso, setStateIso] = useState('')
     const allStates = State.getStatesOfCountry('US');
-    const phoneRegExp = (/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d+)\)?)[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i);
+
+    // eslint-disable-next-line no-use-before-define
+    const phoneRegExp = (/^(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d+)\)?[-. \\/]?)?((?:\(?\d+\)?[-. \\/]?)*)(?:[-. \\/]?(?:#|ext\.?|extension|x)[-. \\/]?(\d+))?$/i);
 
     const validationSchema = Yup.object().shape({
         firstName: Yup.string()
@@ -56,7 +58,8 @@ function Register() {
     }
 
     function handleChange(e) {
-        allStates.map((values, idx) => {
+        // eslint-disable-next-line array-callback-return
+        allStates.map((values) => {
             if (e.target.value === values.name) {
                 setStateIso(values.isoCode);
             }
