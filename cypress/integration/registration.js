@@ -8,21 +8,39 @@ describe('Register Test', () => {
         const user = dataGenerator();
         cy.visit('http://localhost:3000')
             .then(() => {
-                cy.get('input[name=firstName]').click().type(user.firstName)
+                cy.get('input[name=firstName]')
+                    .click()
+                    .type(user.lastName)
+                    .invoke('val')
+                    .should("not.be.empty")
             })
             .then(() => {
-                cy.get('input[name=lastName]').click().type(user.lastName)
+                cy.get('input[name=lastName]')
+                    .click()
+                    .type(user.lastName)
+                    .invoke('val')
+                    .should("not.be.empty")
             })
             .then(() => {
-                cy.get('input[name=npiNum]').click().type((Math.floor(Math.random() * 10000000000).toString()))
+                cy.get('input[name=npiNum]')
+                    .click()
+                    .type((Math.floor(Math.random() * 10000000000).toString()))
+                    .wait(500)
+                    .invoke('val')
+                    .should("not.be.empty")
+                    .should("have.length", 10)
             })
             .then(() => {
-                cy.get('input[name=address]').click().type(user.address)
+                cy.get('input[name=address]')
+                    .click()
+                    .type(user.address)
+                    .invoke('val')
+                    .should("not.be.empty")
             })
             .then(() => {
                 cy.get('[id="state"]')
                     .select('Florida').blur()
-                    .wait(1000)
+                    .wait(500)
             })
             .then(() => {
                 cy.get('[id="city"]')
@@ -30,16 +48,30 @@ describe('Register Test', () => {
                     .wait(500)
             })
             .then(() => {
-                cy.get('input[name=zip]').click().type(user.zip)
+                cy.get('input[name=zip]')
+                    .click()
+                    .type(user.zip)
             })
             .then(() => {
-                cy.get('input[name=telephone]').click().type(user.phone)
+                cy.get('input[name=telephone]')
+                    .click()
+                    .type(user.phone)
+                    .invoke('val')
+                    .should("not.be.empty")
+
             })
             .then(() => {
-                cy.get('input[name=email]').click().type(user.email)
+                cy.get('input[name=email]')
+                    .click()
+                    .type(user.email)
+                    .invoke('val')
+                    .should("not.be.empty")
             })
             .then(() => {
-                cy.get('form').submit() // Submit a form
+                cy.get('form')
+                    .submit() // Submit a form
+                    .get('div[class=invalid-feedback]')
+                    .should('not.exist');
             })
     })
 })

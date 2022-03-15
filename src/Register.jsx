@@ -79,10 +79,6 @@ function Register() {
                                         <h3 className="card-header">Register</h3>
                                         <div className="card-body">
                                             <div className="form-row">
-                                                <div className="form-group">
-                                                    <ErrorMessage name="title" component="div"
-                                                                  className="invalid-feedback"/>
-                                                </div>
                                                 <div className="form-group col">
                                                     <label>First Name</label>
                                                     <Field name="firstName" type="text"
