@@ -21,7 +21,6 @@ function Register() {
     const [stateIso, setStateIso] = useState('')
     const allStates = State.getStatesOfCountry('US');
 
-    // eslint-disable-next-line no-use-before-define
     const phoneRegExp = (/^(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d+)\)?[-. \\/]?)?((?:\(?\d+\)?[-. \\/]?)*)(?:[-. \\/]?(?:#|ext\.?|extension|x)[-. \\/]?(\d+))?$/i);
 
     const validationSchema = Yup.object().shape({
