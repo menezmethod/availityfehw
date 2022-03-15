@@ -20,7 +20,7 @@ function Register() {
     const [values, setValues] = useState();
     const [stateIso, setStateIso] = useState('')
     const allStates = State.getStatesOfCountry('US');
-    const phoneRegExp = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d+)\)?)[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i
+    const phoneRegExp = (/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d+)\)?)[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i);
 
     const validationSchema = Yup.object().shape({
         firstName: Yup.string()

@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
 
-import {userGenerator} from '../../src/test/data-generator';
+import {dataGenerator} from '../../src/test/data-generator';
 
 describe('Register Test', () => {
 
     it('can register', () => {
-        const user = userGenerator();
+        const user = dataGenerator();
         cy.visit('http://localhost:3000')
             .then(() => {
                 cy.get('input[name=firstName]').click().type(user.firstName)
