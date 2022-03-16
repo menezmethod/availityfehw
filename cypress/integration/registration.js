@@ -5,9 +5,9 @@ import {dataGenerator} from '../../src/test/data-generator';
 describe('Register Test', () => {
 
     it('can register', () => {
-        const user = dataGenerator();
         var i = 1;
         for (i = 0; i < 10 ; i++) {
+            const user = dataGenerator();
             cy.visit('http://localhost:3000')
             .then(() => {
                 cy.get('input[name=firstName]')
