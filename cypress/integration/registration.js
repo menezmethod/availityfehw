@@ -6,7 +6,9 @@ describe('Register Test', () => {
 
     it('can register', () => {
         const user = dataGenerator();
-        cy.visit('http://localhost:3000')
+        var i = 1;
+        for (i = 0; i < 10 ; i++) {
+            cy.visit('http://localhost:3000')
             .then(() => {
                 cy.get('input[name=firstName]')
                     .click()
@@ -72,6 +74,7 @@ describe('Register Test', () => {
                     .submit() // Submit a form
                     .get('div[class=invalid-feedback]')
                     .should('not.exist');
-            })
+            })}
     })
+
 })
