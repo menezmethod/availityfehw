@@ -26,7 +26,7 @@ describe('Register Test', () => {
             .then(() => {
                 cy.get('input[name=npiNum]')
                     .click()
-                    .type((Math.floor(Math.random() * 10000000000).toString()))
+                    .type((Math.floor(Math.random() * 1e10).toString()))
                     .wait(500)
                     .invoke('val')
                     .should("not.be.empty")
